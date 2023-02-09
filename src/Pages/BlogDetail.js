@@ -23,6 +23,8 @@ export default function BlogDetail() {
 
         const response = await request.json();
 
+        document.title = response.title;
+
         setArticle(response);
         setLoading(false);
       }
@@ -32,26 +34,39 @@ export default function BlogDetail() {
   );
 
   if (notFound) {
+    document.title = "Blog Detail";
     return (
-      <>
-        <h1>Artikel Tidak Ditemukan :(</h1>
+      <section className="section">
+        <h1 className="section-title">Artikel Tidak Ditemukan :(</h1>
         <small>Kenapa tuh kira2</small>
-      </>
+      </section>
     );
   }
 
   return (
-    <section>
+    <section className="section">
       {loading ? (
         <i>Loading Article, Sabar yaa...</i>
       ) : (
-        <article>
-          <h1>{article.title}</h1>
-          <time>{new Date(article.publishedAt).toLocaleDateString()}</time>
-          <img src={article.imageUrl} alt={article.title} />
-          <p>{article.summary}</p>
-          <p>
-            <a href={article.url} target="_blank" rel="noreferrer">
+        <article className="article">
+          <h1 className="article-title">{article.title}</h1>
+          <time className="article-time">
+            {new Date(article.publishedAt).toLocaleDateString()}
+          </time>
+          <img
+            src={article.imageUrl}
+            alt={article.title}
+            className="article-image"
+          />
+          <p className="article-summary">{article.summary}</p>
+          <p className="article-source">
+            Source:{" "}
+            <a
+              href={article.url}
+              target="_blank"
+              rel="noreferrer"
+              className="article-source"
+            >
               {article.newsSite}
             </a>
           </p>
