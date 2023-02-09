@@ -6,6 +6,7 @@ export default function BlogDetail() {
 
   const [article, setArticle] = useState({});
   const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(
     function () {
@@ -13,6 +14,12 @@ export default function BlogDetail() {
         const request = await fetch(
           `https://api.spaceflightnewsapi.net/v3/articles/${params.id}`
         );
+
+        // jika not found -> JSON.parse('Not Found)
+        if (!request.ok) {
+          setLoading(false);
+          return setNotFound(true);
+        }
 
         const response = await request.json();
 
@@ -23,6 +30,15 @@ export default function BlogDetail() {
     },
     [params]
   );
+
+  if (notFound) {
+    return (
+      <>
+        <h1>Artikel Tidak Ditemukan :(</h1>
+        <small>Kenapa tuh kira2</small>
+      </>
+    );
+  }
 
   return (
     <section>
